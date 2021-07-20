@@ -13,6 +13,9 @@ img{
     width: 100%;
     height: auto;
 }
+ul{
+    list-style: none;
+}
 
 /*======== variables=====================================*/
 
@@ -33,13 +36,16 @@ img{
 
 }
 /*======== BASE  =====================================*/
+html{
+    scroll-behavior: smooth;
+}
 body{
     font:400 1rem "DM Sans", sans-serif;
     color: var(--text-color);
     background:var(--body--color);
     -webkit-font-smoothing: antialiased;
 }
-h1{
+.title{
     font:700 1.875rem "Poppins", sans-serif;
     color: var(--title-color);
     -webkit-font-smoothing:auto;
@@ -71,6 +77,14 @@ h1{
      hsla(var(--hue), 65%, 88%, 0.34) 100%
       ); /*divisão no final entre as telas da landing page */ 
 }
+.divider-2{
+    height: 1px;  /* não funciona sem altura */
+    background: linear-gradient(
+     270deg,
+     hsla(var(--hue), 65%, 88%, 0.34),
+     hsla(var(--hue), 36%, 57%, 1) ); /*divisão no final entre as telas da landing page */ 
+    /*aqui foi feita uma inversão de sentido do gradiente dela*/ 
+}
 
 /*======== LAYOUT =====================================*/
 
@@ -84,11 +98,20 @@ h1{
     display: grid;
     gap:2rem;
 }
-section{
+.section{
     padding: 5rem 0;
 }
+.section .title{
+    margin-bottom: 1rem;
+}
+.section header{
+    margin-bottom: 4rem;
+}
+.section header strong{
+     color:var(--base-color);
+} /* dando cor a ao beatysaloon em negrito*/
 
-header{
+#header{
     border-bottom: 1px solid #e4e4e4;
     margin-bottom:2rem;
     display:flex;
@@ -100,8 +123,14 @@ header{
     background-color: var(--body-color);
     width: 100%;
 }
+#header.scroll{
+    background-color:rgb(245, 239, 241);
+    box-shadow: 0px 0px 12px, rgba(0,0,0, 0.01);
+    transition: 0.5seg;
+}
 main{
-    margin-top:var(--header-height) ;
+    /* uso da função calc para somar mais 2 rem para dar o espaço do header*/
+    margin-top:calc(var(--header-height)+ 2rem );
     
 }
 /*======== LOGO =====================================*/
@@ -120,8 +149,91 @@ nav{
      align-items:center;
      width: 100%;
 }
+/*===== alinhando ao centro  na vertical e dando os espaços no top e botton=====*/
+nav.show .menu{
+    display: grid;
+    place-content: center;
+}
+/*===== abrindo o espaço na vertical entre as opções do menu(somente no mobile  na classe show)=====*/
+nav.show ul.grid {
+    gap:4rem;
+}
+/*===== alinhando a lista ao centro =====*/
+nav ul li{
+    text-align: center;
+}
+nav ul li a{
+    transition: color 0.3s;
+    position: relative;
+}
+   /*dando cor quando passar o mouse encima do "a" "hover" ativa essa função*/
+nav ul li a:hover{ 
+    
+    color: var(--base-color)
+
+} 
+/*=== criando a linha embaixo das opções do menu====*/
+nav ul li a::after{
+    content:'' ;
+    width: 0%;/*linha escondida 0% de largura*/
+    height: 2px;
+    background-color: var(--base-color);
+    position: absolute; /* mesma posição do "pai" position: relative "a" da linha 140*/
+    left:0;
+    bottom: -1.5rem;
+    transition: width 0.2s;
+}
+nav ul li a:hover::after{
+    width: 100%; /*mostrando a linha 100% de largura*/
+}
+/*===== para abrir a "aba" do menu =====*/
+nav .menu{
+    opacity: 0;
+    visibility: hidden;
+    top: -20rem; 
+    transition: 0.2s;
+}
+nav .menu{
+    display: none;
+}
+/*  transição para visivel*/
+nav.show .menu {
+    opacity: 1;
+    visibility: visible;
+    background-color: var(--body-color);
+    height: 100vh; /*  100 da view port height*/
+    width: 100vw; /*  100 da view port width*/
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: grid;
+    place-content:center;
+
+}/* nav não tem espaço do show pois são uma coisa só "classe show"*/
+/*toggle menu (interruptor dos icones do menu)*/
 
 
+nav .icon-close{
+    visibility:hidden ;
+    opacity: 0;
+    top:-1.5rem;
+    position: absolute;
+    right: 1.5rem;
+     transition: 0.2s;/*  transição*/
+}
+nav.show div.icon-close{
+    visibility:visible;
+    opacity: 1; 
+    top: 1.5rem;
+}
+
+.toggle {
+      /* colocando cor e tamanho e nos icones*/
+    color: var(--base-color);   
+    font-size: 1.5rem;
+    cursor: pointer;
+
+}
 
 /*======== HOME =====================================*/
 #home{
@@ -160,7 +272,7 @@ z-index:0; /* determina a "folha" a tras ou afrenteeixo z = profundidade */
 #home .text{
     margin-left: 1.5rem;
     margin-right: 1.5rem;
-    text-align: center
+    text-align: center;
 }
 #home .text h1{
     margin-bottom: 1rem;
@@ -168,4 +280,65 @@ z-index:0; /* determina a "folha" a tras ou afrenteeixo z = profundidade */
 #home .text p {
     margin-bottom: 2rem;
    max-width:100%;
+}
+/*================ ABOUT =====================*/
+#about {
+background-color: white;
+}
+#about .container{
+    margin:0;
+}
+
+#about .image{
+    position: relative;
+}
+
+#about .image::before{
+ content: "";
+ height:100%;
+ width: 100%;
+ background:  var(--base-color-second);
+ position: absolute;
+ top:-8.3%;
+ left:-33.0%;
+z-index:0; /* determina a "folha" a tras ou a frente eixo z = profundidade */
+}
+#about .image img {
+    position: relative;
+ 
+}
+
+#about .image img,
+#about .image::before{
+    border-radius: 0.25rem;
+}
+#about .text{
+    margin-left: 1.5rem;
+    margin-right: 1.5rem;
+    
+}
+/*================ services =====================*/
+.card.grid{
+     gap: 1.5rem;
+}
+
+.card{
+    padding: 3.625rem 2rem;
+    box-shadow: 0px 0px 12px rgba(0,0,0, 0.08);
+    border-bottom: 0.25rem solid var(--base-color);
+    border-radius: .25rem .25rem 0 0;
+    text-align: center;
+}
+/* === icone ====*/
+.card i{ 
+display:block;
+margin-bottom:1.5rem;
+font-size: 5rem;
+color:var(--base-color);
+}
+/* === texto ====*/
+
+.card .title{
+    font-size:  1.5rem;
+    margin-bottom: 0.75rem;
 }
