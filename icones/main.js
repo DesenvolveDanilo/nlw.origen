@@ -14,6 +14,7 @@ correr: function()
     
 }
 })*/
+alert("ai que susto");
 
 
 const nav = document.querySelector('#header nav')// query = pesquisar query selector pesquisar seletor do css, a constante "nav" recebe esse valor
